@@ -1,8 +1,6 @@
 public class Controller {
 
     private Integer[][] rawValues;
-    private int diselStartQuant;
-    private int maxHydOilTemp;
 
     public Controller(Integer[][] rawValues) {
         this.rawValues = rawValues;
@@ -33,13 +31,17 @@ public class Controller {
         return max;
     }
 
-    public String getRecordingTime(){
+    public String getWholeRecTime(){
+        return getRecordingTime(rawValues.length);
+    }
+
+    public String getRecordingTime(int millisecX100){
         StringBuilder sb = new StringBuilder();
-        sb.append(rawValues.length / 36000)
+        sb.append(millisecX100 / 36000)
                 .append(" ч ")
-                .append(rawValues.length%36000/60)
+                .append(millisecX100%36000/600)
                 .append(" мин ")
-                .append(rawValues.length%600/10)
+                .append(millisecX100%600/10)
                 .append(" сек");
         return sb.toString();
     }

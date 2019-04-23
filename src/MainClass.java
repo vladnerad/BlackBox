@@ -2,8 +2,9 @@ public class MainClass {
     public static void main(String[] args) {
         RawValues rawValues = new RawValues("C:\\Users\\vpriselkov\\IdeaProjects\\BlackBox\\src\\23.04 ГСТ20.CSV");
         Controller controller = new Controller(rawValues.getRawValues());
-        System.out.println("Продолжительность записи: " + controller.getRecordingTime());
+        System.out.println("Продолжительность записи: " + controller.getWholeRecTime());
         System.out.println("Количество запусков дизеля: " + controller.getDiselStartQuant());
+        System.out.println("Самая долгая сессия: " + controller.getRecordingTime(controller.getMaxFromColumn(ParametersNumber.ROW_NUMBER)));
         System.out.println("Максимальная температура гидравлического масла: " + controller.getMaxFromColumn(ParametersNumber.HYD_OIL_TEMP));
         System.out.println("Максимальная температура масла ДВС: " + controller.getMaxFromColumn(ParametersNumber.ENGINE_TEMP));
         System.out.println("Максимальная температура наддувочного воздуха: " + controller.getMaxFromColumn(ParametersNumber.TURBO_TEMP));
