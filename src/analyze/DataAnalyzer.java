@@ -1,3 +1,7 @@
+package analyze;
+
+import rawdata.ParameterNumber;
+
 public class DataAnalyzer {
 
     private Integer[][] rawValues;

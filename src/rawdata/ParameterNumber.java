@@ -1,3 +1,5 @@
+package rawdata;
+
 public enum ParameterNumber {
             ROW_NUMBER,
             POTI_DRIVE,
@@ -29,5 +31,5 @@ public enum ParameterNumber {
             PEDAL_BRAKE,
             SAFETY_BUTTON,
             WORK_HOURS,
-            TOTAL_QUANT;
+            TOTAL_QUANT
 }

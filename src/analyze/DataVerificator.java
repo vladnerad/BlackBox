@@ -1,3 +1,7 @@
+package analyze;
+
+import rawdata.ParameterNumber;
+
 //Класс проверяет только корректность снятых значений, логику работы и состояние машины НЕ ПРОВЕРЯЕТ
 public class DataVerificator {
 
@@ -32,16 +36,6 @@ public class DataVerificator {
         return !(isMaxBorderExceeded(column, max) || isMinBorderExceeded(column, min));
     }
 
-    private boolean checkBrakePress(){
-         return isMaxBorderExceeded(ParameterNumber.BRAKE_PRESS, 50);
-    }
-    private boolean checkLeftPumpPress(){
-        return isMaxBorderExceeded(ParameterNumber.PUMP_L_PRESS, 600);
-    }
-    private boolean checkRightPumpPress(){
-        return isMaxBorderExceeded(ParameterNumber.PUMP_R_PRESS, 600);
-    }
-
     private boolean isJoysDataCorrect(){
         int min = 0;
         int max = 225;
@@ -53,10 +47,10 @@ public class DataVerificator {
     }
 
     private boolean isCurrentDataCorrect(){
-//        if(!isInBorders(ParameterNumber.CURR_P_FWD_L, 0, 1000))  System.out.println("Left pump forward current data error");
-//        if(!isInBorders(ParameterNumber.CURR_P_FWD_R, 0, 1000))  System.out.println("Right pump forward current data error");
-//        if(!isInBorders(ParameterNumber.CURR_P_REV_L, 0, 1000))  System.out.println("Left pump revers current data error");
-//        if(!isInBorders(ParameterNumber.CURR_P_REV_R, 0, 1000))  System.out.println("Right pump revers current data error");
+//        if(!isInBorders(rawdata.ParameterNumber.CURR_P_FWD_L, 0, 1000))  System.out.println("Left pump forward current data error");
+//        if(!isInBorders(rawdata.ParameterNumber.CURR_P_FWD_R, 0, 1000))  System.out.println("Right pump forward current data error");
+//        if(!isInBorders(rawdata.ParameterNumber.CURR_P_REV_L, 0, 1000))  System.out.println("Left pump revers current data error");
+//        if(!isInBorders(rawdata.ParameterNumber.CURR_P_REV_R, 0, 1000))  System.out.println("Right pump revers current data error");
         int min = 0;
         int max = 1000;
         boolean leftPfwd = isInBorders(ParameterNumber.CURR_P_FWD_L, min, max);
@@ -70,10 +64,10 @@ public class DataVerificator {
     }
 
     private boolean isPumpPressDataCorrect(){
-//        if(!isInBorders(ParameterNumber.PUMP_L_PRESS, 0, 600))  System.out.println("Left pump pressure data error");
-//        if(!isInBorders(ParameterNumber.PUMP_R_PRESS, 0, 600))  System.out.println("Right pump pressure data error");
-//        if(!isInBorders(ParameterNumber.ATT_PUMP_PRESS, 0, 600))  System.out.println("Attachment pump pressure data error");
-//        if(!isInBorders(ParameterNumber.FAN_PUMP_PRESS, 0, 600))  System.out.println("Fan pump pressure data error");
+//        if(!isInBorders(rawdata.ParameterNumber.PUMP_L_PRESS, 0, 600))  System.out.println("Left pump pressure data error");
+//        if(!isInBorders(rawdata.ParameterNumber.PUMP_R_PRESS, 0, 600))  System.out.println("Right pump pressure data error");
+//        if(!isInBorders(rawdata.ParameterNumber.ATT_PUMP_PRESS, 0, 600))  System.out.println("Attachment pump pressure data error");
+//        if(!isInBorders(rawdata.ParameterNumber.FAN_PUMP_PRESS, 0, 600))  System.out.println("Fan pump pressure data error");
         int min = 0;
         int max = 600;
         boolean leftPpress = isInBorders(ParameterNumber.PUMP_L_PRESS, min, max);
@@ -84,10 +78,10 @@ public class DataVerificator {
     }
 
     private boolean isTemperatureDataCorrect(){
-//        if(!isInBorders(ParameterNumber.ENGINE_TEMP, -40, 255))  System.out.println("Coolant temperature data error");
-//        if(!isInBorders(ParameterNumber.HYD_OIL_TEMP, -40, 255))  System.out.println("Hydro oil temperature data error");
-//        if(!isInBorders(ParameterNumber.TURBO_TEMP, -40, 255))  System.out.println("Air turbo temperature data error");
-//        if(!isInBorders(ParameterNumber.ENVIR_TEMP, -40, 255))  System.out.println("Environment temperature data error");
+//        if(!isInBorders(rawdata.ParameterNumber.ENGINE_TEMP, -40, 255))  System.out.println("Coolant temperature data error");
+//        if(!isInBorders(rawdata.ParameterNumber.HYD_OIL_TEMP, -40, 255))  System.out.println("Hydro oil temperature data error");
+//        if(!isInBorders(rawdata.ParameterNumber.TURBO_TEMP, -40, 255))  System.out.println("Air turbo temperature data error");
+//        if(!isInBorders(rawdata.ParameterNumber.ENVIR_TEMP, -40, 255))  System.out.println("Environment temperature data error");
         int min = -40;
         int max = 255;
         boolean coolant = isInBorders(ParameterNumber.ENGINE_TEMP, min, max);

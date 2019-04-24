@@ -3,7 +3,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class CSVParser {
+public class CSVLineCounter {
     public static int countLinesNew(String filename) throws IOException {
         InputStream is = new BufferedInputStream(new FileInputStream(filename));
         try {
