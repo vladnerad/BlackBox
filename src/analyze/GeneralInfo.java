@@ -23,12 +23,26 @@ public class GeneralInfo {
     private int getMaxFromColumn(ParameterNumber column) {
         return max(column.ordinal());
     }
+    private int getMaxFromColumn(ParameterNumber column, int gap) {
+        return max(column.ordinal(), gap);
+    }
 
     private int max(int column){
         int max = 0;
         for (Integer[] rawValue : rawValues) {
             int currentValue = rawValue[column];
             if (currentValue > max) {
+                max = currentValue;
+            }
+        }
+        return max;
+    }
+
+    private int max(int column, int gap){
+        int max = 0;
+        for (Integer[] rawValue : rawValues) {
+            int currentValue = rawValue[column];
+            if (currentValue > max && rawValue[ParameterNumber.ROW_NUMBER.ordinal()]>gap) {
                 max = currentValue;
             }
         }
@@ -60,7 +74,7 @@ public class GeneralInfo {
         System.out.println("Самая долгая сессия: " + getRecordingTime(getMaxFromColumn(ParameterNumber.ROW_NUMBER)));
         System.out.println("Максимальная температура гидравлического масла: " + getMaxFromColumn(ParameterNumber.HYD_OIL_TEMP));
         System.out.println("Максимальная температура масла ДВС: " + getMaxFromColumn(ParameterNumber.ENGINE_TEMP));
-        System.out.println("Максимальная температура наддувочного воздуха: " + getMaxFromColumn(ParameterNumber.TURBO_TEMP));
+        System.out.println("Максимальная температура наддувочного воздуха: " + getMaxFromColumn(ParameterNumber.TURBO_TEMP, 2));
         System.out.println("Максимальные обороты дизеля: " + getMaxFromColumn(ParameterNumber.ENGINE_RPM));
         int leftMotRpm = getMaxFromColumn(ParameterNumber.MOTOR_L_RPM);
         System.out.println("Максимальные обороты левого борта: " + leftMotRpm + " об/мин | Скорость: " + getMaxSpeed(leftMotRpm, 78));
