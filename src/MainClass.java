@@ -4,9 +4,9 @@ import rawdata.RawValues;
 
 public class MainClass {
     public static void main(String[] args) {
-//        RawValues rawValues = new RawValues("C:\\Users\\vpriselkov\\IdeaProjects\\BlackBox\\src\\examples\\23.04 ГСТ20.CSV");
+        RawValues rawValues = new RawValues("C:\\Users\\vpriselkov\\IdeaProjects\\BlackBox\\src\\examples\\23.04 ГСТ20.CSV");
 //        rawdata.RawValues rawValues = new rawdata.RawValues("C:\\Users\\vpriselkov\\IdeaProjects\\BlackBox\\src\\examples\\mock.CSV");
-        RawValues rawValues = new RawValues("C:\\Users\\vpriselkov\\IdeaProjects\\BlackBox\\src\\examples\\ГСТ20 выставка.CSV");
+//        RawValues rawValues = new RawValues("C:\\Users\\vpriselkov\\IdeaProjects\\BlackBox\\src\\examples\\ГСТ20 выставка.CSV");
 
         DataVerificator dataVerificator = new DataVerificator(rawValues.getRawValues());
 
@@ -19,6 +19,11 @@ public class MainClass {
 
             FanDriveAnalyzer fanDriveAnalyzer = new FanDriveAnalyzer(rawValues.getRawValues(), new BoschFanPump());
             fanDriveAnalyzer.checkFanCurr();
+
+            PressureAnalyze pressureAnalyze = new PressureAnalyze(rawValues.getRawValues());
+            System.out.println(pressureAnalyze.getGapsL());
+            System.out.println(pressureAnalyze.getGapsR());
+
 
 //            DPCSystem dpc = new DPCSystem(rawValues.getRawValues());
 //            System.out.println(dpc.leftDivRight());
