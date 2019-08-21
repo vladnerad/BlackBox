@@ -50,10 +50,10 @@ public class DataAnalyzer {
         if (!isTouched) System.out.println("Педаль не выжималась до упора");
     }
 
-    private void checkWorkHours(){
+    private void checkWorkHours(int initTime){
         int currHoursQuant;
         if(rawValues.length > 10) {
-            currHoursQuant = rawValues[10][ParameterNumber.WORK_HOURS.ordinal()];
+            currHoursQuant = rawValues[initTime][ParameterNumber.WORK_HOURS.ordinal()];
         } else currHoursQuant = rawValues[0][ParameterNumber.WORK_HOURS.ordinal()];
         int counter = 0;
         HashMap<Integer, Integer> timeBrakes = new HashMap<>();
@@ -94,7 +94,7 @@ public class DataAnalyzer {
     public void analyze(){
         checkAllPoti();
         isPedalTested();
-        checkWorkHours();
+        checkWorkHours(86);
         checkTempSens();
     }
 }

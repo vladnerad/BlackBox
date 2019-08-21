@@ -2,7 +2,6 @@ package analyze;
 
 import rawdata.ParameterNumber;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -24,19 +23,19 @@ public class PressureAnalyze {
     private Map<Integer, Integer> getGap(ParameterNumber parameterNumber) {
         Map<Integer, Integer> map = new TreeMap<>();
         int buff = startsWith;
-        while(buff<460){
+        while (buff < 460) {
             map.put(buff, 0);
-            buff+=interval;
+            buff += interval;
         }
-        for(Integer[] rawValue: rawValues){
+        for (Integer[] rawValue : rawValues) {
             int pressL = rawValue[parameterNumber.ordinal()];
-            for (Integer border: map.keySet()){
-                if(border-pressL>=0 && border-pressL<interval){
-                    map.replace(border, (map.get(border)+1));
+            for (Integer border : map.keySet()) {
+                //Промежутки 0-30, 31-40, 41-50 и т.д.
+                if (border - pressL >= 0 && border - pressL < interval) {
+                    map.replace(border, (map.get(border) + 1));
                     break;
-                }
-                else if(pressL>=0 && pressL<startsWith){
-                    map.replace(startsWith, (map.get(startsWith)+1));
+                } else if (pressL >= 0 && pressL < startsWith) {
+                    map.replace(startsWith, (map.get(startsWith) + 1));
                     break;
                 }
             }
@@ -50,5 +49,16 @@ public class PressureAnalyze {
 
     public Map<Integer, Integer> getGapsR() {
         return gapsR;
+    }
+
+    public void printGap(Map<Integer, Integer> gap){
+        for (Map.Entry<Integer, Integer> entry: gap.entrySet()){
+            int key = entry.getKey();
+            int value = entry.getValue();
+            if (key == startsWith) {
+                System.out.print("0 - " + startsWith + " Bar: " + value + " x 0.1s.\n");
+            }
+            else System.out.print(key-9 + " - " + key + " Bar: " + value + " x 0.1s.\n");
+        }
     }
 }
