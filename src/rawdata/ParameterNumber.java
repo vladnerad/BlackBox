@@ -2,6 +2,7 @@ package rawdata;
 
 public enum ParameterNumber {
             ROW_NUMBER,
+            TIME_AFTER_START,
             POTI_DRIVE,
             POTI_STEER,
             POTI_DIR,
@@ -31,5 +32,6 @@ public enum ParameterNumber {
             PEDAL_BRAKE,
             SAFETY_BUTTON,
             WORK_HOURS,
+            SERIAL_NUMBER,
             TOTAL_QUANT
 }

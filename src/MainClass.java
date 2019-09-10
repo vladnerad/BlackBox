@@ -1,5 +1,6 @@
 import Helpers.FileWriteHelper;
 import aggregates.BoschFanPump;
+import aggregates.HydrosylaFanPump;
 import analyze.*;
 import rawdata.RawValues;
 
@@ -31,12 +32,12 @@ public class MainClass {
                 DataAnalyzer dataAnalyzer = new DataAnalyzer(rawValues.getRawValues());
                 dataAnalyzer.analyze();
 
-                FanDriveAnalyzer fanDriveAnalyzer = new FanDriveAnalyzer(rawValues.getRawValues(), new BoschFanPump());
+                FanDriveAnalyzer fanDriveAnalyzer = new FanDriveAnalyzer(rawValues.getRawValues(), new HydrosylaFanPump());
                 fanDriveAnalyzer.checkFanCurr();
 
-                PressureAnalyze pressureAnalyze = new PressureAnalyze(rawValues.getRawValues());
-                pressureAnalyze.printGap(pressureAnalyze.getGapsL());
-                pressureAnalyze.printGap(pressureAnalyze.getGapsR());
+//                PressureAnalyze pressureAnalyze = new PressureAnalyze(rawValues.getRawValues());
+//                pressureAnalyze.printGap(pressureAnalyze.getGapsL());
+//                pressureAnalyze.printGap(pressureAnalyze.getGapsR());
 
                 HourTester hourTester = new HourTester(rawValues.getRawValues());
                 System.out.println(hourTester.getHoursMap());

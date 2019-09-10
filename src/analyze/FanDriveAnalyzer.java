@@ -8,11 +8,11 @@ public class FanDriveAnalyzer {
     private Integer[][] rawValues;
     private FanPump fanPump;
     private int minHydOilTemp = 60,
-            maxHydOilTemp = 80,
-            minCoolantTemp = 85,
+            maxHydOilTemp = 75,
+            minCoolantTemp = 82,
             maxCoolantTemp = 95,
-            minTurboAirTemp = 50,
-            maxTurboAirTemp = 70;
+            minTurboAirTemp = 44,   // уменьшено, перепроверить процентное соотношение, граничные значения
+            maxTurboAirTemp = 65;
 
     public FanDriveAnalyzer(Integer[][] rawValues, FanPump fanPump) {
         this.rawValues = rawValues;
@@ -45,21 +45,27 @@ public class FanDriveAnalyzer {
         int fanOffWhenNeed = 0;
 
         for (Integer[] rawValue : rawValues) {
-            if(rawValue[ParameterNumber.ENGINE_RPM.ordinal()] > 500) {
+            if(rawValue[ParameterNumber.ENGINE_RPM.ordinal()] > 600) { /*Если брать 500, то контроллер не всегда успевает сразу подавать ток*/
 
-                if (rawValue[ParameterNumber.CURR_FAN_PUMP.ordinal()] == 0)
+                if (rawValue[ParameterNumber.CURR_FAN_PUMP.ordinal()] == 0) {
                     supplyErrorCount++;
+//                    System.out.println(rawValue[ParameterNumber.ROW_NUMBER.ordinal()]);
+                }
 
-                else if (fanPercentage(rawValue) == 0 && rawValue[ParameterNumber.CURR_FAN_PUMP.ordinal()] < fanPump.getMaxCurrent() - 15)
+                else if (fanPercentage(rawValue) == 0 && rawValue[ParameterNumber.CURR_FAN_PUMP.ordinal()] < fanPump.getMaxCurrent() - 20){
                     fanMaxCurrError++;
+//                    System.out.println(rawValue[ParameterNumber.ROW_NUMBER.ordinal()]);
+                }
 
                 else if (fanPercentage(rawValue) >= 100 && rawValue[ParameterNumber.CURR_FAN_PUMP.ordinal()] > fanPump.getMinCurrent() + 15
                         && rawValue[ParameterNumber.TURBO_TEMP.ordinal()] != 196) //handicap
                     fanMinCurrError++;
-            }
 
-            if(fanPercentage(rawValue) > 0 &&  rawValue[ParameterNumber.CURR_FAN_PUMP.ordinal()] == 0)
-                fanOffWhenNeed++;
+                if(fanPercentage(rawValue) > 0 &&  rawValue[ParameterNumber.CURR_FAN_PUMP.ordinal()] == 0) {
+                    fanOffWhenNeed++;
+//                    System.out.println(rawValue[ParameterNumber.ROW_NUMBER.ordinal()]);
+                }
+            }
         }
         if(supplyErrorCount > 0) System.out.println("Fan-Drive pump valve supply error: " + supplyErrorCount);
         if(fanMaxCurrError > 0) System.out.println("Fan-Drive max current error: " + fanMaxCurrError);
