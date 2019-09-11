@@ -1,9 +1,9 @@
 package Helpers;
 
+import exception.InterruptOperationException;
 import rawdata.RawValues;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -13,14 +13,18 @@ public class DataHelper {
     private static String filePath;
 
     static {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
-            System.out.println("Enter .csv file path:");
-            filePath = br.readLine().replace("\"", "");
-            rawValues = new RawValues(filePath).getRawValues();
-        } catch (IOException e) {
+        ConsoleHelper.writeMessage("Enter .csv file path:");
+        try {
+            filePath = ConsoleHelper.readString().replace("\"", "");
+        } catch (InterruptOperationException e) {
             e.printStackTrace();
         }
+        rawValues = new RawValues(filePath).getRawValues();
     }
+
+//    static {
+//        rawValues = ConsoleHelper.askLogFile();
+//    }
 
     public static Integer[][] getRawValues() {
         return rawValues;

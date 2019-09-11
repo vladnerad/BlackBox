@@ -6,10 +6,11 @@ public enum Operation {
     DPC_TEST,
     FAN_DRIVE_TEST,
     PRESSURE_ANALYZE,
-    MOTO_HOUR_TEST;
+    MOTO_HOUR_TEST,
+    EXIT;
 
     public static Operation getAllowableOperationByOrdinal(Integer i) {
-        if (i == null || i < 1 || i > 5) throw new IllegalArgumentException();
+        if (i == null || i < 1 || i > 6) throw new IllegalArgumentException();
         return Operation.values()[i];
     }
 }

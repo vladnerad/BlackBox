@@ -1,3 +1,4 @@
+import Helpers.ConsoleHelper;
 import Helpers.DataHelper;
 import analyze.DataVerificator;
 import command.CommandExecutor;
@@ -37,6 +38,12 @@ public class MainClass {
 //            System.out.println(dpc.leftDivRight());
 //            System.out.println(dpc.getBiggestDifference());
 //            System.out.println(dpc.getAverage());
+
+                Operation operation;
+                do {
+                    operation = ConsoleHelper.askOperation();
+                    CommandExecutor.execute(operation);
+                } while (operation != Operation.EXIT);
             } else System.out.println("Check the device");
         } catch (InterruptOperationException e) {
             e.printStackTrace();
