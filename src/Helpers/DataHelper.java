@@ -22,10 +22,6 @@ public class DataHelper {
         rawValues = new RawValues(filePath).getRawValues();
     }
 
-//    static {
-//        rawValues = ConsoleHelper.askLogFile();
-//    }
-
     public static Integer[][] getRawValues() {
         return rawValues;
     }

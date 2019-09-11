@@ -70,10 +70,11 @@ public class ConsoleHelper {
     public static Operation askOperation() throws InterruptOperationException {
         try{
             writeMessage(res.getString("choose.operation"));
-            writeMessage("1 " + res.getString("operation.INFO"));
-            writeMessage("2 " + res.getString("operation.DEPOSIT"));
-            writeMessage("3 " + res.getString("operation.WITHDRAW"));
-            writeMessage("4 " + res.getString("operation.EXIT"));
+            writeMessage("1 " + res.getString("operation.GENERAL"));
+            writeMessage("2 " + res.getString("operation.RPM.DROP"));
+            writeMessage("3 " + res.getString("operation.FANDRIVE"));
+            writeMessage("4 " + res.getString("operation.PRESSURE"));
+            writeMessage("5 " + res.getString("operation.EXIT"));
             String oper = readString();
             return Operation.getAllowableOperationByOrdinal(Integer.parseInt(oper));
         } catch (IllegalArgumentException e){
