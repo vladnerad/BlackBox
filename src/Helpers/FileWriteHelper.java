@@ -3,31 +3,30 @@ package Helpers;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 
 public class FileWriteHelper {
 
-    private static File csvSourceFile;
-    private File outputFile;
+    private static FileWriter fw;
 
-    public FileWriteHelper(File csvSourceFile) {
-        this.csvSourceFile = csvSourceFile;
-        this.outputFile = new File(csvSourceFile.toString().replace(".CSV", "").concat(" - result.txt"));
-    }
-
-//    public void setCsvSourceFile(File file){
-//        this.csvSourceFile = file;
-//    }
-
-    public void writeln(String string){
+    static {
+        File outputFile = new File(DataHelper.getFilePath().replace(".CSV", "").concat(" - result.txt"));
         try {
-            FileWriter fw = new FileWriter(outputFile);
-            fw.write(string);
-            fw.write("\n");
-            fw.flush();
-            fw.close();
+            Files.deleteIfExists(outputFile.toPath());
+            fw = new FileWriter(outputFile, true);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void writeln(String string) throws IOException {
+        fw.write(string);
+        fw.write("\n");
+        fw.flush();
+    }
+
+    public static void closeWriter() throws IOException {
+        fw.close();
     }
 
 

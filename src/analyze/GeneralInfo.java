@@ -1,39 +1,18 @@
 package analyze;
 
+import Helpers.DataHelper;
+import Helpers.FileWriteHelper;
+import command.Command;
 import rawdata.ParameterNumber;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class GeneralInfo {
+public class GeneralInfo implements Command {
 
-    private Integer[][] rawValues;
-    private File outputFile;
-
-    public GeneralInfo(Integer[][] rawValues, String fileName) {
-        this.rawValues = rawValues;
-        this.outputFile = new File(new File(fileName).toString().replace(".CSV", "").concat(" - result.txt"));
-        try {
-            Files.deleteIfExists(outputFile.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-//    private int getDiselStartQuant(){
-//        int counter = 0;
-//        for (Integer[] rawValue : rawValues) {
-//            if (rawValue[0] == 1) {
-//                counter++;
-//            }
-//        }
-//        return counter;
-//    }
+    private Integer[][] rawValues = DataHelper.getRawValues();
 
     //Добавить количество включений массы
     private int getDiselStartQuant() {
@@ -91,10 +70,6 @@ public class GeneralInfo {
         return max;
     }
 
-//    private String getWholeRecTime(){
-//        return getRecordingTime(rawValues.length);
-//    }
-
     private String getWholeRecTime() {
         ArrayList<Integer> records = new ArrayList<>();
         for (int i = 0; i < rawValues.length - 1; i++) {
@@ -140,7 +115,7 @@ public class GeneralInfo {
         return x100 / 100;
     }
 
-    private Set<Integer> getSerialNumbers(){
+    private Set<Integer> getSerialNumbers() {
         HashSet<Integer> result = new HashSet<>();
         for (Integer[] rawValue : rawValues) {
             int currentValue = rawValue[ParameterNumber.SERIAL_NUMBER.ordinal()];
@@ -149,44 +124,31 @@ public class GeneralInfo {
         return result;
     }
 
-    public void printInfo() {
+    @Override
+    public void execute() {
         try {
-            Files.createFile(outputFile.toPath());
-            FileWriter fw = new FileWriter(outputFile);
-            fw.write("Номер машины: " + getSerialNumbers().toString());
-            fw.write("\n");
-            fw.write("Продолжительность записи: " + getWholeRecTime());
-            fw.write("\n");
-            fw.write("Количество включений массы: " + getBatteryOnQuant());
-            fw.write("\n");
-            fw.write("Количество запусков дизеля: " + getDiselStartQuant());
-            fw.write("\n");
-            fw.write("Самая долгая сессия: " + getRecordingTime(getMaxFromColumn(ParameterNumber.TIME_AFTER_START)));
-            fw.write("\n");
-            fw.write("Максимальная температура гидравлического масла: " + getMaxFromColumn(ParameterNumber.HYD_OIL_TEMP));
-            fw.write("\n");
-            fw.write("Максимальная температура ОЖ ДВС: " + getMaxFromColumn(ParameterNumber.ENGINE_TEMP));
-            fw.write("\n");
-            fw.write("Максимальная температура наддувочного воздуха: " + maxAirTurbo());
-            fw.write("\n");
-            fw.write("Максимальные обороты дизеля: " + getMaxFromColumn(ParameterNumber.ENGINE_RPM));
-            fw.write("\n");
+            FileWriteHelper.writeln("Номер машины: " + getSerialNumbers().toString());
+            FileWriteHelper.writeln("Продолжительность записи: " + getWholeRecTime());
+            FileWriteHelper.writeln("Количество включений массы: " + getBatteryOnQuant());
+            FileWriteHelper.writeln("Количество запусков дизеля: " + getDiselStartQuant());
+            FileWriteHelper.writeln("Самая долгая сессия: " + getRecordingTime(getMaxFromColumn(ParameterNumber.TIME_AFTER_START)));
+            FileWriteHelper.writeln("Максимальная температура гидравлического масла: " + getMaxFromColumn(ParameterNumber.HYD_OIL_TEMP));
+            FileWriteHelper.writeln("Максимальная температура ОЖ ДВС: " + getMaxFromColumn(ParameterNumber.ENGINE_TEMP));
+            FileWriteHelper.writeln("Максимальная температура наддувочного воздуха: " + maxAirTurbo());
+            FileWriteHelper.writeln("Максимальные обороты дизеля: " + getMaxFromColumn(ParameterNumber.ENGINE_RPM));
             int leftMotRpm = getMaxFromColumn(ParameterNumber.MOTOR_L_RPM);
-            fw.write("Максимальные обороты левого борта: " + leftMotRpm + " об/мин | Скорость: " + getMaxSpeed(leftMotRpm, 56));
-            fw.write("\n");
+            FileWriteHelper.writeln("Максимальные обороты левого борта: " + leftMotRpm + " об/мин | Скорость: " + getMaxSpeed(leftMotRpm, 56));
             int rightMotRpm = getMaxFromColumn(ParameterNumber.MOTOR_R_RPM);
-            fw.write("Максимальные обороты правого борта: " + rightMotRpm + " об/мин | Скорость: " + getMaxSpeed(rightMotRpm, 56));
-            fw.write("\n");
-            fw.write("Максимальное давление левого борта: " + getMaxFromColumn(ParameterNumber.PUMP_L_PRESS));
-            fw.write("\n");
-            fw.write("Максимальное давление правого борта: " + getMaxFromColumn(ParameterNumber.PUMP_R_PRESS));
-            fw.write("\n");
-            fw.write("Максимальное давление в тормозном контуре: " + getMaxFromColumn(ParameterNumber.BRAKE_PRESS));
-            fw.flush();
-            fw.close();
+            FileWriteHelper.writeln("Максимальные обороты правого борта: " + rightMotRpm + " об/мин | Скорость: " + getMaxSpeed(rightMotRpm, 56));
+            FileWriteHelper.writeln("Максимальное давление левого борта: " + getMaxFromColumn(ParameterNumber.PUMP_L_PRESS));
+            FileWriteHelper.writeln("Максимальное давление правого борта: " + getMaxFromColumn(ParameterNumber.PUMP_R_PRESS));
+            FileWriteHelper.writeln("Максимальное давление в тормозном контуре: " + getMaxFromColumn(ParameterNumber.BRAKE_PRESS));
+            FileWriteHelper.closeWriter();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
 //        System.out.println("Продолжительность записи: " + getWholeRecTime());
 //        System.out.println("Количество запусков дизеля: " + getDiselStartQuant());
 //        System.out.println("Самая долгая сессия: " + getRecordingTime(getMaxFromColumn(ParameterNumber.ROW_NUMBER)));
@@ -201,5 +163,6 @@ public class GeneralInfo {
 //        System.out.println("Максимальное давление левого борта: " + getMaxFromColumn(ParameterNumber.PUMP_L_PRESS));
 //        System.out.println("Максимальное давление правого борта: " + getMaxFromColumn(ParameterNumber.PUMP_R_PRESS));
 //        System.out.println("Максимальное давление в тормозном контуре: " + getMaxFromColumn(ParameterNumber.BRAKE_PRESS));
-    }
 }
+
+
